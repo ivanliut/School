@@ -1,0 +1,125 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: School
+  description: This is a server API for School project
+  termsOfService: http://school.com/terms/
+  contact:
+    name: Foodbucket API support team
+    url: http://foodbucket.com/support
+    email: support@foodbucket.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+# during dev, should point to your local machine
+host: localhost:3000
+# basePath prefixes all resource paths
+basePath: /api
+schemes:
+  # tip: remove http to make production-grade
+  - http
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+# root path
+  /students:
+    post:
+      x-swagger-router-controller: Students
+      operationId: createStudents
+      tags:
+      - "students"
+      consumes:
+      - application/json
+      summary: Create student
+      description: |
+        This endpoint allows to create new student.
+      parameters:
+      - in: body
+        name: student
+        description: Student object
+        required: true
+        schema:
+          $ref: '#/definitions/Student'
+      responses:
+        200:
+          description: Student has been created
+          schema:
+            $ref: '#/definitions/Student'
+        201:
+          description: Student added
+          schema:
+            $ref: '#/definitions/Student'
+        400:
+          description: Invalid input
+    get:
+      x-swagger-router-controller: Students
+      operationId: getStudents
+      tags:
+      - "students"
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Successful students response
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Student"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  Student:
+    type: object
+    required:
+      - currentGroup
+      - firstName
+      - lastName
+    properties:
+      userId:
+        type: integer
+        format: int64
+      currentGroup:
+        type: integer
+        format: int64
+      firstName:
+        type: string
+      lastName:
+        type: string
+      recordOfMonthlyPayments:
+        type: array
+        items:
+          $ref: "#/definitions/MonthlyPayment"
+      groupHistoryInfo:
+        type: array
+        items:
+          $ref: "#/definitions/GroupHistory"    
+  MonthlyPayment:
+    type: object
+    required:
+      - moneyPaid
+      - date
+    properties:
+      moneyPaid:
+        type: integer
+        format: int64
+      date:
+        type: "string"
+        format: "date-time"
+  GroupHistory:
+    type: object
+    properties:
+      groupNumber:
+        type: integer
+        format: int64
+      startDate:
+        type: "string"
+        format: "date-time"
+      endDate:
+        type: "string"
+        format: "date-time"
+  

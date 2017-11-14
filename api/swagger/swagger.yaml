@@ -36,7 +36,7 @@ paths:
       - application/json
       summary: Create student
       description: |
-        This endpoint allows to create new student.
+        This endpoint allows to create a new student.
       parameters:
       - in: body
         name: student
@@ -69,6 +69,49 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Student"
+  /groups:
+    post:
+      x-swagger-router-controller: Groups
+      operationId: createGroups
+      tags:
+      - "groups"
+      consumes:
+      - application/json
+      summary: Create group
+      description: |
+        This endpoint allows to create a new group.
+      parameters:
+      - in: body
+        name: student
+        description: Group object
+        required: true
+        schema:
+          $ref: '#/definitions/Group'
+      responses:
+        200:
+          description: Group has been created
+          schema:
+            $ref: '#/definitions/Group'
+        201:
+          description: Student added
+          schema:
+            $ref: '#/definitions/Group'
+        400:
+          description: Invalid input
+    get:
+      x-swagger-router-controller: Groups
+      operationId: getGroups
+      tags:
+      - "groups"
+      produces:
+      - application/json
+      responses:
+        200:
+          description: Successful groups response
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Group"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -110,6 +153,44 @@ definitions:
       date:
         type: "string"
         format: "date-time"
+  Group:
+    type: object
+    required:
+      - groupeNumber
+      - students
+      - daysAndTimes
+    properties:
+      groupeNumber:
+        type: integer
+        format: int64
+      students:
+        type: array
+        items:
+          type: integer
+          format: int64
+      daysAndTimes:
+        type: array
+        items:
+          $ref: "#/definitions/DaysAndTimeObject"    
+  DaysAndTimeObject:
+    type: object
+    required:
+      - day
+      - time
+    properties:
+      day:
+        type: "string"
+        description: "choose appropriate day"
+        enum:
+        - "Monday"
+        - "Tuesday"
+        - "Wednesday"
+        - "Thursday"
+        - "Friday"
+        - "Saturday"
+        - "Sunday"
+      time:
+        type: "string"      
   GroupHistory:
     type: object
     properties:

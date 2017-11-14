@@ -1,0 +1,236 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a server API for School project"
+  version: "0.0.1"
+  title: "School"
+  termsOfService: "http://school.com/terms/"
+  contact:
+    name: "Foodbucket API support team"
+    url: "http://foodbucket.com/support"
+    email: "support@foodbucket.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:3000"
+basePath: "/api"
+schemes:
+- "http"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /students:
+    get:
+      tags:
+      - "students"
+      operationId: "getStudents"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Successful students response"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Student"
+      x-swagger-router-controller: "Students"
+    post:
+      tags:
+      - "students"
+      summary: "Create student"
+      description: "This endpoint allows to create a new student.\n"
+      operationId: "createStudents"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "student"
+        description: "Student object"
+        required: true
+        schema:
+          $ref: "#/definitions/Student"
+      responses:
+        200:
+          description: "Student has been created"
+          schema:
+            $ref: "#/definitions/Student"
+        201:
+          description: "Student added"
+          schema:
+            $ref: "#/definitions/Student"
+        400:
+          description: "Invalid input"
+      x-swagger-router-controller: "Students"
+  /groups:
+    get:
+      tags:
+      - "groups"
+      operationId: "getGroups"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Successful groups response"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Group"
+      x-swagger-router-controller: "Groups"
+    post:
+      tags:
+      - "groups"
+      summary: "Create group"
+      description: "This endpoint allows to create a new group.\n"
+      operationId: "createGroups"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "student"
+        description: "Group object"
+        required: true
+        schema:
+          $ref: "#/definitions/Group"
+      responses:
+        200:
+          description: "Group has been created"
+          schema:
+            $ref: "#/definitions/Group"
+        201:
+          description: "Student added"
+          schema:
+            $ref: "#/definitions/Group"
+        400:
+          description: "Invalid input"
+      x-swagger-router-controller: "Groups"
+  /swagger:
+    x-swagger-pipe: "swagger_raw"
+definitions:
+  Student:
+    type: "object"
+    required:
+    - "currentGroup"
+    - "firstName"
+    - "lastName"
+    properties:
+      userId:
+        type: "integer"
+        format: "int64"
+      currentGroup:
+        type: "integer"
+        format: "int64"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      recordOfMonthlyPayments:
+        type: "array"
+        items:
+          $ref: "#/definitions/MonthlyPayment"
+      groupHistoryInfo:
+        type: "array"
+        items:
+          $ref: "#/definitions/GroupHistory"
+    example:
+      firstName: "firstName"
+      lastName: "lastName"
+      recordOfMonthlyPayments:
+      - date: "2000-01-23T04:56:07.000+00:00"
+        moneyPaid: 1
+      - date: "2000-01-23T04:56:07.000+00:00"
+        moneyPaid: 1
+      groupHistoryInfo:
+      - endDate: "2000-01-23T04:56:07.000+00:00"
+        groupNumber: 5
+        startDate: "2000-01-23T04:56:07.000+00:00"
+      - endDate: "2000-01-23T04:56:07.000+00:00"
+        groupNumber: 5
+        startDate: "2000-01-23T04:56:07.000+00:00"
+      currentGroup: 6
+      userId: 0
+  MonthlyPayment:
+    type: "object"
+    required:
+    - "date"
+    - "moneyPaid"
+    properties:
+      moneyPaid:
+        type: "integer"
+        format: "int64"
+      date:
+        type: "string"
+        format: "date-time"
+    example:
+      date: "2000-01-23T04:56:07.000+00:00"
+      moneyPaid: 1
+  Group:
+    type: "object"
+    required:
+    - "daysAndTimes"
+    - "groupeNumber"
+    - "students"
+    properties:
+      groupeNumber:
+        type: "integer"
+        format: "int64"
+      students:
+        type: "array"
+        items:
+          type: "integer"
+          format: "int64"
+      daysAndTimes:
+        type: "array"
+        items:
+          $ref: "#/definitions/DaysAndTimeObject"
+    example:
+      daysAndTimes:
+      - time: "time"
+        day: "Monday"
+      - time: "time"
+        day: "Monday"
+      groupeNumber: 0
+      students:
+      - 6
+      - 6
+  DaysAndTimeObject:
+    type: "object"
+    required:
+    - "day"
+    - "time"
+    properties:
+      day:
+        type: "string"
+        description: "choose appropriate day"
+        enum:
+        - "Monday"
+        - "Tuesday"
+        - "Wednesday"
+        - "Thursday"
+        - "Friday"
+        - "Saturday"
+        - "Sunday"
+      time:
+        type: "string"
+    example:
+      time: "time"
+      day: "Monday"
+  GroupHistory:
+    type: "object"
+    properties:
+      groupNumber:
+        type: "integer"
+        format: "int64"
+      startDate:
+        type: "string"
+        format: "date-time"
+      endDate:
+        type: "string"
+        format: "date-time"
+    example:
+      endDate: "2000-01-23T04:56:07.000+00:00"
+      groupNumber: 5
+      startDate: "2000-01-23T04:56:07.000+00:00"

@@ -156,11 +156,11 @@ definitions:
   Group:
     type: object
     required:
-      - groupeNumber
+      - groupNumber
       - students
       - daysAndTimes
     properties:
-      groupeNumber:
+      groupNumber:
         type: integer
         format: int64
       students:

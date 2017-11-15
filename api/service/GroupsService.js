@@ -1,5 +1,5 @@
 'use strict';
-const Student = require('../model/group');
+const Group = require('../model/group');
 
 /**
  * Create group
@@ -8,26 +8,32 @@ const Student = require('../model/group');
  * student Group Group object
  * returns Group
  **/
-exports.createGroups = function(student) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "daysAndTimes" : [ {
-    "time" : "time",
-    "day" : "Monday"
-  }, {
-    "time" : "time",
-    "day" : "Monday"
-  } ],
-  "groupeNumber" : 0,
-  "students" : [ 6, 6 ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.createGroups = function({
+                                  groupNumber,
+                                  students,
+                                  daysAndTimes
+                                }) {
+        return new Promise(function(resolve, reject) {
+
+          new Group({
+            groupNumber,
+            students,
+            daysAndTimes
+          })
+            .save()
+            .then(
+              group => { console.log('Group saved ', group);
+                if (Object.keys(group).length > 0) {
+                  resolve(group);
+                } else {
+                  reject();
+                }
+              },
+              error => { console.log('Group not saved', error); }
+            );
+
+      });
+
 }
 
 
@@ -37,33 +43,21 @@ exports.createGroups = function(student) {
  **/
 exports.getGroups = function() {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = [ {
-  "daysAndTimes" : [ {
-    "time" : "time",
-    "day" : "Monday"
-  }, {
-    "time" : "time",
-    "day" : "Monday"
-  } ],
-  "groupeNumber" : 0,
-  "students" : [ 6, 6 ]
-}, {
-  "daysAndTimes" : [ {
-    "time" : "time",
-    "day" : "Monday"
-  }, {
-    "time" : "time",
-    "day" : "Monday"
-  } ],
-  "groupeNumber" : 0,
-  "students" : [ 6, 6 ]
-} ];
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+
+    Group.find({}).then(
+      groups => {
+
+        if (Object.keys(groups).length > 0) {
+          resolve(groups);
+        } else {
+          reject();
+        }
+      },
+      error => { console.log('Unable to get students ', error); }
+    );
+  }).catch(err =>{
+    console.log('Unable to get students ', error);
+
   });
 }
 

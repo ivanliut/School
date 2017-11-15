@@ -5,7 +5,7 @@
 const mongoose = require('mongoose');
 
 var groupSchema = mongoose.Schema({
-  groupeNumber: {
+  groupNumber: {
     type: Number,
     unique: true,
     required: true

@@ -24,8 +24,8 @@ var groupSchema = mongoose.Schema({
   daysAndTimes: {
         type: [
           {
-            day:[{type: String}] ,
-            time: [{type: String}]
+            day:{type: String},
+            time: {type: String}
           }
         ]
       }

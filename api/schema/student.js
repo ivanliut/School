@@ -11,7 +11,10 @@ var studentSchema = mongoose.Schema({
   },
   firstName: {type: String, required: true},
   lastName: {type: String, required: true},
-  currentGroup: { type: Number, required: true},
+  currentGroup: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Group',
+    required: 'You must supply group number for a student'},
   recordOfMonthlyPayments: {
     type: [
       {

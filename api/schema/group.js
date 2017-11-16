@@ -10,17 +10,6 @@ var groupSchema = mongoose.Schema({
     unique: true,
     required: true
   },
-  students: {
-    type: [
-      {
-        studentId: {
-          type: Number,
-          unique: true,
-          required: true
-        }
-      }
-    ]
-  },
   daysAndTimes: {
         type: [
           {
@@ -31,5 +20,12 @@ var groupSchema = mongoose.Schema({
       }
 
 });
+
+groupSchema.virtual('students', {
+  ref: 'Student',
+  localField: '_id',
+  foreignField: 'currentGroup'
+});
+
 
 module.exports = groupSchema;

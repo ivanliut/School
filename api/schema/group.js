@@ -29,7 +29,7 @@ var groupSchema = mongoose.Schema({
 
 groupSchema.virtual('students', {
   ref: 'Student',
-  localField: '_id',
+  localField: 'groupNumber',
   foreignField: 'currentGroup'
 });
 

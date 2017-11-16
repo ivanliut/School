@@ -44,7 +44,9 @@ exports.createGroups = function({
 exports.getGroups = function() {
   return new Promise(function(resolve, reject) {
 
-    Group.find({}).then(
+    Group.find({})
+      .populate('students')
+      .then(
       groups => {
 
         if (Object.keys(groups).length > 0) {

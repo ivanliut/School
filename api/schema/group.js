@@ -19,7 +19,13 @@ var groupSchema = mongoose.Schema({
         ]
       }
 
-});
+},
+
+  {
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true},
+
+  });
 
 groupSchema.virtual('students', {
   ref: 'Student',

@@ -22,15 +22,6 @@ var studentSchema = mongoose.Schema({
         moneyPaid: Number
       }
     ]
-  },
-  groupHistoryInfo: {
-    type: [
-      {
-        groupNumber: Number,
-        startDate: {type: Date },
-        endDate: {type: Date }
-      }
-    ]
   }
 });
 
